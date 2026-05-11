@@ -11,14 +11,15 @@ const io = new Server(server, {
     }
 
 });
-
+const mensajes = [];
 io.on("connection", (socket) => {
     console.log("Nuevo cliente conectado "); 
     //Para enviar un mensaje a un cliente específico, se puede usar el método emit del socket. Por ejemplo, para enviar un mensaje de bienvenida al cliente recién conectado, se puede hacer lo siguiente:    
     socket.emit("Bienvenido", "Bienvenido al chat");
 
     socket.on("mensaje", (mensaje) => {
-        socket.broadcast.emit("mensaje", mensaje);
+        mensajes.push(mensaje);
+        io.emit("mensaje", mensajes);
     //para enviar un mensaje a todos los clientes conectados, menos a mi.
     });
 

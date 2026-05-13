@@ -7,7 +7,7 @@ function App(){
   const [socket, setSocket] = useState();
   const [user, setUser] = useState("");
 
-  useEffect(()=>{
+  useEffect(()=>{c
     const newSocket = io("http://10.30.7.66:3000");
     setSocket(newSocket);
     newSocket.on("mensaje", (msg) => {
@@ -22,9 +22,14 @@ function App(){
     e.preventDefault();
     //como se envian los mensajes ...
 
-    socket.emit("mensaje", {user, inputMessage});
+    socket.emit("mensaje", {
+  user,
+  inputMessage,
+  fecha: new Date().toLocaleTimeString('es-CO')
+});
     setInputMessage("");
   }
+  
   
   return (
     <div>
@@ -34,7 +39,7 @@ function App(){
           Enviar
         </button>
       </form>
-      {mensajeRecibido.map(mensaje => <div>{mensaje.user}: {mensaje.inputMessage}</div>)}
+      {mensajeRecibido.map(mensaje => <div>{mensaje.user}: {mensaje.inputMessage} ({mensaje.fecha})</div>)}
     </div>
   );}
 export default App;
